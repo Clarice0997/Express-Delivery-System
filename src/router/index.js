@@ -19,19 +19,33 @@ const routes = [
       },
       {
         path: 'home',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/home/HomeView.vue')
+        component: () => import(/* webpackChunkName: "HomeView" */ '@/views/home/HomeView.vue')
       },
       {
         path: 'mail',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/mail/MailView.vue')
+        component: () => import(/* webpackChunkName: "MailView" */ '@/views/mail/MailView.vue')
       },
       {
         path: 'query',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/query/QueryView.vue')
+        component: () => import(/* webpackChunkName: "QueryView" */ '@/views/query/QueryView.vue')
       },
       {
         path: 'login',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/login/LoginView.vue')
+        component: () => import(/* webpackChunkName: "LoginView" */ '@/views/login/LoginView.vue'),
+        children: [
+          {
+            path: '',
+            redirect: 'login'
+          },
+          {
+            path: 'login',
+            component: () => import(/* webpackChunkName: "Login" */ '@/components/Login/Login.vue')
+          },
+          {
+            path: 'register',
+            component: () => import(/* webpackChunkName: "Register" */ '@/components/Login/Register.vue')
+          }
+        ]
       }
     ]
   }

@@ -5,7 +5,7 @@
       <el-header height="60px">
         <div class="header-container">
           <!-- LOGO容器 -->
-          <div class="logo-container">
+          <div class="logo-container" @click="clickLogoHandler">
             <img src="@/assets/logo.png" alt="LOGO" />
           </div>
           <!-- 导航栏容器 -->
@@ -61,6 +61,9 @@ export default {
   mounted() {},
 
   methods: {
+    clickLogoHandler() {
+      this.$router.replace('/express/home')
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
     },
@@ -94,6 +97,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     img {
       width: 45px;
       height: 45px;
