@@ -83,6 +83,7 @@ export default {
     clickLogoHandler() {
       this.$router.replace('/express/home')
     },
+    // 导航栏点击函数
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
     },
@@ -98,6 +99,8 @@ export default {
         type: 'success',
         duration: 2000
       })
+      // 跳转首页
+      this.$router.replace('/express/home')
     }
   }
 }

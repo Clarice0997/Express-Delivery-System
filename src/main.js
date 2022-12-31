@@ -12,6 +12,10 @@ import store from './store'
 
 // 导入VueCookie处理模块
 import VueCookies from 'vue-cookies'
+
+// permission控制
+import './permission'
+
 Vue.use(VueCookies)
 
 Vue.config.productionTip = false

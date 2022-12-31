@@ -19,10 +19,12 @@ const routes = [
       },
       {
         path: 'home',
+        name: '首页',
         component: () => import(/* webpackChunkName: "HomeView" */ '@/views/home/HomeView.vue')
       },
       {
         path: 'mail',
+        name: '我要寄件',
         component: () => import(/* webpackChunkName: "MailView" */ '@/views/mail/MailView.vue'),
         meta: {
           requireAuth: true
@@ -30,6 +32,7 @@ const routes = [
       },
       {
         path: 'query',
+        name: '快件查询',
         component: () => import(/* webpackChunkName: "QueryView" */ '@/views/query/QueryView.vue'),
         meta: {
           requireAuth: true
@@ -45,10 +48,12 @@ const routes = [
           },
           {
             path: 'login',
+            name: '登录',
             component: () => import(/* webpackChunkName: "Login" */ '@/components/Login/Login.vue')
           },
           {
             path: 'register',
+            name: '注册',
             component: () => import(/* webpackChunkName: "Register" */ '@/components/Login/Register.vue')
           }
         ]
