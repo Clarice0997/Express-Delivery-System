@@ -17,6 +17,7 @@
 import { loginAPI } from '@/apis/loginAPI'
 import { setToken } from '@/utils/auth'
 import router from '@/router'
+import store from '@/store'
 
 export default {
   name: 'ExpressDeliverySystemLogin',
@@ -92,6 +93,8 @@ export default {
                 })
                 // 保存Token
                 setToken(data.data.token)
+                // Vuex保存登录索引
+                store.dispatch('setLoginIndex', true)
                 // 登录成功跳转首页
                 router.replace('/express/home')
               }

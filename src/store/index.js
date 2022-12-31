@@ -5,13 +5,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    loginIndex: false
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
+    setLoginIndex(state, data) {
+      state.loginIndex = data
+    }
   },
   actions: {
+    setLoginIndex({ commit }, data) {
+      commit('setLoginIndex', data)
+    }
   },
-  modules: {
-  }
+  modules: {}
 })

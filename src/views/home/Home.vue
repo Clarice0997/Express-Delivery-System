@@ -17,9 +17,10 @@
             </el-menu>
           </div>
           <div class="login-container">
-            <router-link to="/express/login">
+            <router-link to="/express/login" v-if="!loginIndex">
               <span>快速登录/注册</span>
             </router-link>
+            <span v-else @click="clickLogoutHandler">退出登录</span>
           </div>
         </div>
       </el-header>
@@ -38,6 +39,9 @@
 </template>
 
 <script>
+import store from '@/store'
+import { deleteToken } from '@/utils/auth'
+
 export default {
   name: 'ExpressDeliverySystemHome',
 
@@ -45,6 +49,12 @@ export default {
     return {
       footerDisplay: 'flex',
       mainHeight: '850px'
+    }
+  },
+
+  computed: {
+    loginIndex() {
+      return store.state.loginIndex
     }
   },
 
@@ -69,11 +79,25 @@ export default {
   },
 
   methods: {
+    // 点击logo处理函数
     clickLogoHandler() {
       this.$router.replace('/express/home')
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
+    },
+    // 退出登录处理函数
+    clickLogoutHandler() {
+      // 清除登录索引
+      store.dispatch('setLoginIndex', false)
+      // 清除Token
+      deleteToken()
+      // 退出登录弹窗
+      this.$message({
+        message: '退出登录成功',
+        type: 'success',
+        duration: 2000
+      })
     }
   }
 }
@@ -123,6 +147,7 @@ export default {
       font-size: 14px;
       color: white;
       transition: 0.3s;
+      cursor: pointer;
     }
     span:hover {
       color: #409eff;
