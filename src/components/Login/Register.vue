@@ -11,12 +11,15 @@
       <el-form-item label="确认密码" prop="checkPassword">
         <el-input v-model="form.checkPassword" show-password maxlength="18" minlength="6" prefix-icon="el-icon-lock"></el-input>
       </el-form-item>
-      <el-button type="primary" v-loading.fullscreen="fullscreenLoading" :loading="btnLoading">立即登录</el-button>
+      <el-button type="primary" v-loading.fullscreen="fullscreenLoading" :loading="btnLoading" @click="clickRegHandler">立即注册</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
+import { registerAPI } from '@/apis/loginAPI'
+import router from '@/router'
+
 export default {
   name: 'ExpressDeliverySystemRegister',
 
@@ -100,7 +103,57 @@ export default {
 
   mounted() {},
 
-  methods: {}
+  methods: {
+    // 点击注册按钮处理函数
+    clickRegHandler() {
+      // 校验表单
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          // Loading遮罩
+          this.fullscreenLoading = true
+          // 加载按钮
+          this.btnLoading = true
+          // 发起登录网络请求
+          registerAPI(this.form.username, this.form.password)
+            .then(({ data }) => {
+              if (data.code === 200) {
+                // 成功注册弹窗
+                this.$message({
+                  message: data.message,
+                  type: 'success',
+                  duration: 2000
+                })
+                // 注册成功跳转登录界面
+                router.replace('/express/login/login')
+              } else {
+                this.$message({
+                  message: data.data.message,
+                  type: 'error',
+                  duration: 2000
+                })
+              }
+            })
+            .catch(err => {
+              this.$message({
+                message: err,
+                type: 'error',
+                duration: 2000
+              })
+            })
+            .finally(() => {
+              // 停止加载按钮
+              this.btnLoading = false
+              // 停止全屏遮罩
+              this.fullscreenLoading = false
+              // 重置表单数据
+              this.form = this.$options.data().form
+            })
+        } else {
+          return false
+        }
+      })
+    }
+  }
 }
 </script>
 

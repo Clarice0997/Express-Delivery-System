@@ -9,10 +9,8 @@ import request from '@/utils/request.js'
  */
 export const loginAPI = function (username, password) {
   return request.post('system/user/login', {
-    data: {
-      username,
-      password
-    }
+    username,
+    password
   })
 }
 
@@ -24,9 +22,7 @@ export const loginAPI = function (username, password) {
  */
 export const registerAPI = function (username, password) {
   return request.post('system/user/register', {
-    data: {
-      username,
-      password
-    }
+    username,
+    password
   })
 }

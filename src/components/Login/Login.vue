@@ -8,12 +8,16 @@
       <el-form-item label="登录密码" prop="password">
         <el-input v-model="form.password" show-password prefix-icon="el-icon-lock"></el-input>
       </el-form-item>
-      <el-button type="primary" v-loading.fullscreen="fullscreenLoading" :loading="btnLoading">立即登录</el-button>
+      <el-button type="primary" v-loading.fullscreen="fullscreenLoading" :loading="btnLoading" @click="clickLoginHandler">立即登录</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
+import { loginAPI } from '@/apis/loginAPI'
+import { setToken } from '@/utils/auth'
+import router from '@/router'
+
 export default {
   name: 'ExpressDeliverySystemLogin',
 
@@ -66,7 +70,53 @@ export default {
 
   mounted() {},
 
-  methods: {}
+  methods: {
+    // 点击登录按钮处理函数
+    clickLoginHandler() {
+      // 校验表单
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          // Loading遮罩
+          this.fullscreenLoading = true
+          // 加载按钮
+          this.btnLoading = true
+          // 发起登录网络请求
+          loginAPI(this.form.username, this.form.password)
+            .then(({ data }) => {
+              if (data.code === 200) {
+                // 成功登录弹窗
+                this.$message({
+                  message: data.message,
+                  type: 'success',
+                  duration: 2000
+                })
+                // 保存Token
+                setToken(data.data.token)
+                // 登录成功跳转首页
+                router.replace('/express/home')
+              }
+            })
+            .catch(err => {
+              this.$message({
+                message: err,
+                type: 'error',
+                duration: 2000
+              })
+            })
+            .finally(() => {
+              // 停止加载按钮
+              this.btnLoading = false
+              // 停止全屏遮罩
+              this.fullscreenLoading = false
+              // 重置表单数据
+              this.form = this.$options.data().form
+            })
+        } else {
+          return false
+        }
+      })
+    }
+  }
 }
 </script>
 

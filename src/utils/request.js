@@ -9,6 +9,8 @@ import NProgress from 'nprogress'
 
 // 默认设置校验码
 axios.defaults.headers.common.Authorization = getToken()
+// 设置默认请求格式
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 // 允许axios携带cookie
 // axios.defaults.withCredentials = true
 
