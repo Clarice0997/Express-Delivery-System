@@ -23,11 +23,17 @@ const routes = [
       },
       {
         path: 'mail',
-        component: () => import(/* webpackChunkName: "MailView" */ '@/views/mail/MailView.vue')
+        component: () => import(/* webpackChunkName: "MailView" */ '@/views/mail/MailView.vue'),
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path: 'query',
-        component: () => import(/* webpackChunkName: "QueryView" */ '@/views/query/QueryView.vue')
+        component: () => import(/* webpackChunkName: "QueryView" */ '@/views/query/QueryView.vue'),
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path: 'login',

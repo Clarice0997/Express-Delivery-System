@@ -70,7 +70,6 @@ export default {
   align-items: center;
 }
 .login-container {
-  width: 550px;
   height: 300px;
   /deep/ .el-card__body {
     height: 100%;

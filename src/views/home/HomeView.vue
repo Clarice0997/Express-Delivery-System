@@ -134,9 +134,6 @@ export default {
   mounted() {},
 
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath)
-    },
     handleClick(tab, event) {
       console.log(tab, event)
     }

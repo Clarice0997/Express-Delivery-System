@@ -24,13 +24,13 @@
         </div>
       </el-header>
       <!-- 页面主体 -->
-      <el-main>
+      <el-main :style="{ height: mainHeight }">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
       </el-main>
       <!-- 底部版权 -->
-      <el-footer height="60px">
+      <el-footer height="60px" :style="{ display: footerDisplay }">
         <span>版权所有 @快递公司 2021-2022</span>
       </el-footer>
     </el-container>
@@ -43,22 +43,30 @@ export default {
 
   data() {
     return {
-      activeIndex: '1',
-      activeName: 'second',
-      swiperData: [
-        {
-          name: 'AD1',
-          imgURL: 'https://www.sto.cn/static/img/banner_1.png'
-        },
-        {
-          name: 'AD2',
-          imgURL: 'https://www.sto.cn/static/img/banner_2.png'
-        }
-      ]
+      footerDisplay: 'flex',
+      mainHeight: '850px'
     }
   },
 
   mounted() {},
+
+  watch: {
+    // 监听路由地址变化监听器
+    // 动态改变登录注册按钮情况
+    '$route.path': {
+      handler: function (newVal) {
+        if (newVal.match('/express/login')) {
+          this.footerDisplay = 'none'
+          this.mainHeight = document.documentElement.clientHeight - 60 + 'px'
+        } else {
+          this.footerDisplay = 'flex'
+          this.mainHeight = '850px'
+        }
+      },
+      // 首次加载触发
+      immediate: true
+    }
+  },
 
   methods: {
     clickLogoHandler() {
@@ -66,9 +74,6 @@ export default {
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
-    },
-    handleClick(tab, event) {
-      console.log(tab, event)
     }
   }
 }
