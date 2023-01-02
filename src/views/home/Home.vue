@@ -42,6 +42,7 @@
 <script>
 import store from '@/store'
 import { deleteToken } from '@/utils/auth'
+import { deleteCookie } from '@/utils/cookie'
 
 export default {
   name: 'ExpressDeliverySystemHome',
@@ -95,6 +96,7 @@ export default {
     clickLogoutHandler() {
       // 清除登录索引 和 用户信息
       store.dispatch('resetUser')
+      deleteCookie('userInfo')
       // 清除Token
       deleteToken()
       // 退出登录弹窗

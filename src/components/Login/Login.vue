@@ -16,6 +16,7 @@
 <script>
 import { loginAPI, userInfoAPI } from '@/apis/loginAPI'
 import { setToken } from '@/utils/auth'
+import { setCookie } from '@/utils/cookie'
 import router from '@/router'
 import store from '@/store'
 
@@ -99,7 +100,10 @@ export default {
                 await userInfoAPI()
                   .then(({ data }) => {
                     if (data.code === 200) {
+                      // Vuex保存用户信息
                       store.dispatch('setUserInfo', data.data.data)
+                      // localStorage保存用户信息
+                      setCookie('userInfo', data.data.data)
                     }
                   })
                   .catch(err => {

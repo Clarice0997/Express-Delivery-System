@@ -1,4 +1,4 @@
-// cookie处理工具类
+// Token处理工具类
 /* global $cookies */
 
 // 获取校验token
