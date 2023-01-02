@@ -74,6 +74,7 @@
 
 <script>
 import { regionData, CodeToText } from 'element-china-area-data'
+import { mailAPI } from '@/apis/expressAPI'
 
 export default {
   name: 'ExpressDeliverySystemMailView',
@@ -257,7 +258,26 @@ export default {
           this.fullscreenLoading = true
           // 加载按钮
           this.btnLoading = true
-          console.table(this.form)
+          // 发起网络请求
+          mailAPI(this.form)
+            .then(({ data }) => {
+              console.log(data)
+            })
+            .catch(err => {
+              this.$message({
+                message: err,
+                type: 'error',
+                duration: 2000
+              })
+            })
+            .finally(() => {
+              // 停止加载按钮
+              this.btnLoading = false
+              // 停止全屏遮罩
+              this.fullscreenLoading = false
+              // 重置表单数据
+              // this.form = this.$options.data().form
+            })
         } else {
           return false
         }
