@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { loginAPI } from '@/apis/loginAPI'
+import { loginAPI, userInfoAPI } from '@/apis/loginAPI'
 import { setToken } from '@/utils/auth'
 import router from '@/router'
 import store from '@/store'
@@ -83,7 +83,7 @@ export default {
           this.btnLoading = true
           // 发起登录网络请求
           loginAPI(this.form.username, this.form.password)
-            .then(({ data }) => {
+            .then(async ({ data }) => {
               if (data.code === 200) {
                 // 成功登录弹窗
                 this.$message({
@@ -95,6 +95,20 @@ export default {
                 setToken(data.data.token)
                 // Vuex保存登录索引
                 store.dispatch('setLoginIndex', true)
+                // 获取用户信息接口
+                await userInfoAPI()
+                  .then(({ data }) => {
+                    if (data.code === 200) {
+                      store.dispatch('setUserInfo', data.data.data)
+                    }
+                  })
+                  .catch(err => {
+                    this.$message({
+                      message: err,
+                      type: 'error',
+                      duration: 2000
+                    })
+                  })
                 // 登录成功跳转首页
                 router.replace('/express/home')
               }

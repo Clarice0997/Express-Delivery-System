@@ -80,6 +80,22 @@ export default {
   name: 'ExpressDeliverySystemMailView',
 
   data() {
+    // 自定义校验 寄件人手机号校验
+    const senderPhoneValidator = (rule, value, callback) => {
+      if (value === this.form.receiver_phone) {
+        callback(new Error('寄件人收件人手机号不能相同'))
+      } else {
+        callback()
+      }
+    }
+    // 自定义校验 收件人手机号校验
+    const receiverPhoneValidator = (rule, value, callback) => {
+      if (value === this.form.sender_phone) {
+        callback(new Error('寄件人收件人手机号不能相同'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 表单数据对象
       form: {
@@ -129,6 +145,11 @@ export default {
             pattern: /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/,
             message: '请输入正确的手机号码',
             trigger: 'blur'
+          },
+          // 寄件人收件人手机号校验
+          {
+            validator: senderPhoneValidator,
+            trigger: 'blur'
           }
         ],
         // 寄件人省市区校验
@@ -177,6 +198,11 @@ export default {
           {
             pattern: /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/,
             message: '请输入正确的手机号码',
+            trigger: 'blur'
+          },
+          // 寄件人收件人手机号校验
+          {
+            validator: receiverPhoneValidator,
             trigger: 'blur'
           }
         ],
@@ -261,7 +287,15 @@ export default {
           // 发起网络请求
           mailAPI(this.form)
             .then(({ data }) => {
-              console.log(data)
+              if (data.code === 200) {
+                this.$alert(data.data.expressID, '快递单号', {
+                  confirmButtonText: '确定'
+                })
+                // 重置表单数据
+                this.form = this.$options.data().form
+                this.selectedSenderOptions = []
+                this.selectedReceiverOptions = []
+              }
             })
             .catch(err => {
               this.$message({
@@ -275,8 +309,6 @@ export default {
               this.btnLoading = false
               // 停止全屏遮罩
               this.fullscreenLoading = false
-              // 重置表单数据
-              // this.form = this.$options.data().form
             })
         } else {
           return false

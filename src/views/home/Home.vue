@@ -17,6 +17,7 @@
             </el-menu>
           </div>
           <div class="login-container">
+            <span v-if="loginIndex">你好，{{ userInfo.username }}</span>
             <router-link to="/express/login" v-if="!loginIndex">
               <span>快速登录/注册</span>
             </router-link>
@@ -55,6 +56,9 @@ export default {
   computed: {
     loginIndex() {
       return store.state.loginIndex
+    },
+    userInfo() {
+      return store.state.userInfo
     }
   },
 
@@ -89,8 +93,8 @@ export default {
     },
     // 退出登录处理函数
     clickLogoutHandler() {
-      // 清除登录索引
-      store.dispatch('setLoginIndex', false)
+      // 清除登录索引 和 用户信息
+      store.dispatch('resetUser')
       // 清除Token
       deleteToken()
       // 退出登录弹窗
@@ -145,7 +149,9 @@ export default {
   }
   // 登录按钮容器
   .login-container {
-    width: 100px;
+    width: 190px;
+    display: flex;
+    justify-content: space-between;
     span {
       font-size: 14px;
       color: white;

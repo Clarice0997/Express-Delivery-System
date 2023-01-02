@@ -26,3 +26,11 @@ export const registerAPI = function (username, password) {
     password
   })
 }
+
+/**
+ * 获取用户信息API
+ * @returns
+ */
+export const userInfoAPI = function () {
+  return request.get('system/user/userInfo')
+}
