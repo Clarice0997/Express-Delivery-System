@@ -2,7 +2,7 @@
   <div class="query-container">
     <h1>物流查询</h1>
     <div style="margin-top: 15px">
-      <el-input placeholder="请输入快递单号" v-model="expressId" clearable @blur="countInputLength">
+      <el-input placeholder="请输入快递单号" v-model="expressId" clearable @keyup.enter.native="enterSearchHandler">
         <template slot="append">
           <el-button slot="append" icon="el-icon-search" @click="clickSearchHandler" v-loading.fullscreen="fullscreenLoading" :loading="btnLoading"></el-button>
         </template>
@@ -64,13 +64,9 @@ export default {
   mounted() {},
 
   methods: {
-    // 判断输入框长度函数
-    countInputLength() {
-      if (this.expressId.length !== 16) {
-        this.$alert('快递单号是16位的纯数字', {
-          confirmButtonText: '确定'
-        })
-      }
+    // 回车搜索处理函数
+    enterSearchHandler() {
+      this.clickSearchHandler()
     },
     // 点击查询按钮函数
     clickSearchHandler() {
