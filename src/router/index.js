@@ -33,10 +33,7 @@ const routes = [
       {
         path: 'query',
         name: '快件查询',
-        component: () => import(/* webpackChunkName: "QueryView" */ '@/views/query/QueryView.vue'),
-        meta: {
-          requireAuth: true
-        }
+        component: () => import(/* webpackChunkName: "QueryView" */ '@/views/query/QueryView.vue')
       },
       {
         path: 'login',
